@@ -1,0 +1,16 @@
+.header {
+    box-shadow: none;
+  }
+  
+  .menuButton {
+    margin-right: 20px;
+  }
+  
+  .title {
+    flex-grow: 1;
+  }
+  
+  .registerButton {
+    margin-right: 10px;
+    border-color: #fff;
+  }
