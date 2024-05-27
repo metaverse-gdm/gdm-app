@@ -1,5 +1,3 @@
-// src/pages/index.tsx
-
 import { GetStaticProps } from 'next';
 import ContentCard from '../components/ContentCard';
 import { Container, Grid } from '@mui/material';

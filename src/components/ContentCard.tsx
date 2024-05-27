@@ -19,10 +19,18 @@ const CardContainer = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Enhanced shadow
+  transition: 'transform 0.2s ease-in-out', // Smooth transition effect
+  '&:hover': {
+    transform: 'translateY(-5px)', // Lift on hover
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)', // Deeper shadow on hover
+  },
 });
 
 const Media = styled(CardMedia)({
-  height: 180,
+  height: 200,
+  borderTopLeftRadius: '4px', // Rounded corners
+  borderTopRightRadius: '4px', // Rounded corners
 });
 
 const CardContentContainer = styled(CardContent)({
@@ -30,6 +38,7 @@ const CardContentContainer = styled(CardContent)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
+  padding: '16px',
 });
 
 const Footer = styled(Box)({
@@ -38,11 +47,11 @@ const Footer = styled(Box)({
   alignItems: 'center',
   padding: '10px 16px',
   borderTop: '1px solid #e0e0e0',
-  backgroundColor: '#fafafa',
+  backgroundColor: '#fafafa',  
 });
 
 const CategoryBox = styled(Box)({
-  marginTop: '10px',
+  marginTop: '10px',  
   display: 'flex',
   flexWrap: 'wrap',
   gap: '5px',
