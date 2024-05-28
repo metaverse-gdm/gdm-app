@@ -32,7 +32,7 @@ const NewContent: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     const newContent = {
       ...formData,
       categories: formData.categories.split(',').map((category) => category.trim()),
@@ -40,14 +40,19 @@ const NewContent: React.FC = () => {
       currentDevelopers: Number(formData.currentDevelopers),
       maxDevelopers: Number(formData.maxDevelopers),
     };
-
-    // Save the new content to local storage or send it to an API endpoint
-    // For simplicity, we'll just use local storage in this example
-    const storedContents = JSON.parse(localStorage.getItem('contents') || '[]');
-    storedContents.push(newContent);
-    localStorage.setItem('contents', JSON.stringify(storedContents));
-
-    router.push('/');
+  
+    // サーバーにデータを送信
+    const response = await fetch('/api/content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newContent),
+    });
+  
+    if (response.ok) {
+      router.push('/');
+    }
   };
 
   return (
@@ -96,17 +101,7 @@ const NewContent: React.FC = () => {
               onChange={handleChange}
               helperText={t('categories_helper')}
             />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              fullWidth
-              label={t('likes')}
-              name="likes"
-              type="number"
-              value={formData.likes}
-              onChange={handleChange}
-            />
-          </Grid>
+          </Grid>          
           <Grid item xs={12} sm={4}>
             <TextField
               fullWidth

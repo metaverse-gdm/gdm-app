@@ -1,19 +1,19 @@
-import {
-  AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText, ListItemIcon,
-} from '@mui/material';
-import {
-  Menu as MenuIcon, Search as SearchIcon, Help as HelpIcon, Language as LanguageIcon, AddBox as AddBoxIcon, Login as LoginIcon, PersonAdd as PersonAddIcon,
-} from '@mui/icons-material';
+// File: ./components/Header.tsx
+
+import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Menu as MenuIcon, Search as SearchIcon, Help as HelpIcon, Language as LanguageIcon, AddBox as AddBoxIcon, Login as LoginIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/system';
+import { useRouter } from 'next/router';
 
 const Header: React.FC = () => {
   const { i18n, t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const router = useRouter();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -39,11 +39,19 @@ const Header: React.FC = () => {
   const drawer = (
     <div role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
       <List>
-        <ListItem button>
-          <ListItemIcon><SearchIcon /></ListItemIcon>
-          <ListItemText primary={t('find_project')} />
+        <ListItem button onClick={() => router.push('/new-content')}>
+          <ListItemIcon><AddBoxIcon /></ListItemIcon>
+          <ListItemText primary={t('register_project')} />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => router.push('/login')}>
+          <ListItemIcon><LoginIcon /></ListItemIcon>
+          <ListItemText primary={t('login')} />
+        </ListItem>
+        <ListItem button onClick={() => router.push('/signup')}>
+          <ListItemIcon><PersonAddIcon /></ListItemIcon>
+          <ListItemText primary={t('sign_up')} />
+        </ListItem>
+        <ListItem button onClick={() => router.push('/faq')}>
           <ListItemIcon><HelpIcon /></ListItemIcon>
           <ListItemText primary={t('faq')} />
         </ListItem>
@@ -56,18 +64,6 @@ const Header: React.FC = () => {
           <MenuItem onClick={() => handleLanguageMenuClose('zh')}>中文</MenuItem>
           <MenuItem onClick={() => handleLanguageMenuClose('ja')}>日本語</MenuItem>
         </Menu>
-        <ListItem button>
-          <ListItemIcon><AddBoxIcon /></ListItemIcon>
-          <ListItemText primary={t('register_project')} />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><LoginIcon /></ListItemIcon>
-          <ListItemText primary={t('login')} />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon><PersonAddIcon /></ListItemIcon>
-          <ListItemText primary={t('sign_up')} />
-        </ListItem>
       </List>
     </div>
   );
@@ -80,7 +76,7 @@ const Header: React.FC = () => {
   return (
     <AppBar position="static" color="default">
       <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        <Typography variant="h6" style={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => router.push('/')}>
           {t('title')}
         </Typography>
         {isMobile ? (
@@ -97,7 +93,7 @@ const Header: React.FC = () => {
             <StyledButton startIcon={<SearchIcon />} color="inherit">
               {t('find_project')}
             </StyledButton>
-            <StyledButton startIcon={<HelpIcon />} color="inherit">
+            <StyledButton startIcon={<HelpIcon />} color="inherit" onClick={() => router.push('/faq')}>
               {t('faq')}
             </StyledButton>
             <StyledButton startIcon={<LanguageIcon />} color="inherit" onClick={handleLanguageMenuClick}>
@@ -108,11 +104,15 @@ const Header: React.FC = () => {
               <MenuItem onClick={() => handleLanguageMenuClose('zh')}>中文</MenuItem>
               <MenuItem onClick={() => handleLanguageMenuClose('ja')}>日本語</MenuItem>
             </Menu>
-            <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit">
+            <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit" onClick={() => router.push('/new-content')}>
               {t('register_project')}
             </StyledButton>
-            <StyledButton startIcon={<LoginIcon />} color="inherit">{t('login')}</StyledButton>
-            <StyledButton startIcon={<PersonAddIcon />} color="inherit">{t('sign_up')}</StyledButton>
+            <StyledButton startIcon={<LoginIcon />} color="inherit" onClick={() => router.push('/login')}>
+              {t('login')}
+            </StyledButton>
+            <StyledButton startIcon={<PersonAddIcon />} color="inherit" onClick={() => router.push('/signup')}>
+              {t('sign_up')}
+            </StyledButton>
           </div>
         )}
       </Toolbar>

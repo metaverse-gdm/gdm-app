@@ -1,7 +1,11 @@
+// File: ./components/ContentCard.tsx
+
+import React, { useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { useTranslation } from 'react-i18next';
+import ContentCardDetailsModal from './ContentCardDetailsModal';
 
 interface ContentCardProps {
   image: string;
@@ -47,11 +51,11 @@ const Footer = styled(Box)({
   alignItems: 'center',
   padding: '10px 16px',
   borderTop: '1px solid #e0e0e0',
-  backgroundColor: '#fafafa',  
+  backgroundColor: '#fafafa',
 });
 
 const CategoryBox = styled(Box)({
-  marginTop: '10px',  
+  marginTop: '10px',
   display: 'flex',
   flexWrap: 'wrap',
   gap: '5px',
@@ -69,38 +73,63 @@ const Developers = styled(Typography)({
 
 const ContentCard: React.FC<ContentCardProps> = ({ image, title, description, categories = [], likes, currentDevelopers, maxDevelopers }) => {
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <CardContainer>
-      <Media
+    <>
+      <CardContainer onClick={handleOpen}>
+        <Media
+          image={image}
+          title={title}
+        />
+        <CardContentContainer>
+          <Box>
+            <Typography gutterBottom variant="h6" component="div">
+              {title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {description}
+            </Typography>
+          </Box>
+          <CategoryBox>
+            {categories.map((category, index) => (
+              // 空だったら何も表示しない
+              category &&
+              <Chip key={index} label={category} color="primary" size="small" />
+            ))}
+          </CategoryBox>
+        </CardContentContainer>
+        <Footer>
+          <Likes variant="body2">
+            <Favorite fontSize="small" style={{ marginRight: '5px', color: 'red' }} />
+            {likes}
+          </Likes>
+          <Developers variant="body2">
+            {t('current_developers')} {currentDevelopers}/{maxDevelopers}
+          </Developers>
+        </Footer>
+      </CardContainer>
+
+      <ContentCardDetailsModal
+        open={open}
+        handleClose={handleClose}
         image={image}
         title={title}
+        description={description}
+        categories={categories}
+        likes={likes}
+        currentDevelopers={currentDevelopers}
+        maxDevelopers={maxDevelopers}
       />
-      <CardContentContainer>
-        <Box>
-          <Typography gutterBottom variant="h6" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {description}
-          </Typography>
-        </Box>
-        <CategoryBox>
-          {categories.map((category, index) => (
-            <Chip key={index} label={category} color="primary" size="small" />
-          ))}
-        </CategoryBox>
-      </CardContentContainer>
-      <Footer>
-        <Likes variant="body2">
-          <Favorite fontSize="small" style={{ marginRight: '5px', color: 'red' }} />
-          {likes}
-        </Likes>
-        <Developers variant="body2">
-          {t('current_developers')} {currentDevelopers}/{maxDevelopers}
-        </Developers>
-      </Footer>
-    </CardContainer>
+    </>
   );
 };
 
