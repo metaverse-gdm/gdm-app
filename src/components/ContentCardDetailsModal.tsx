@@ -33,13 +33,35 @@ const Footer = styled(Box)({
 });
 
 const Likes = styled(Typography)({
-  color: 'gray',
+  color: '#d32f2f',
   display: 'flex',
   alignItems: 'center',
 });
 
 const Developers = styled(Typography)({
-  color: 'blue',
+  color: '#1976d2',
+});
+
+const ModalContent = styled(Box)({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '90%',
+  height: '90%',
+  backgroundColor: 'white',
+  boxShadow: 24,
+  borderRadius: 16,
+  outline: 'none',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const ScrollContainer = styled(Box)({
+  overflowY: 'auto',
+  padding: 32,
+  borderRadius: 16,
 });
 
 const ContentCardDetailsModal: React.FC<ContentCardDetailsModalProps> = ({ open, handleClose, image, title, description, categories = [], likes, currentDevelopers, maxDevelopers }) => {
@@ -58,42 +80,31 @@ const ContentCardDetailsModal: React.FC<ContentCardDetailsModalProps> = ({ open,
       }}
     >
       <Fade in={open}>
-        <Box style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '90%', // 幅を90%に設定
-          height: '90%', // 高さを90%に設定
-          backgroundColor: 'white',
-          boxShadow: 24,
-          padding: 32, // パディングを32に増やす
-          borderRadius: 16, // 角を16pxに丸くする
-          overflowY: 'auto', // コンテンツが多い場合のスクロール対応
-          outline: 'none', // Select時の枠線を表示させない
-        }}>
-          <Typography id="transition-modal-title" variant="h4" component="h2">
-            {title}
-          </Typography>
-          <img src={image} alt={title} style={{ width: '100%', marginTop: 16, borderRadius: 8 }} />
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            {description}
-          </Typography>
-          <CategoryBox>
-            {categories.map((category, index) => (
-              <Chip key={index} label={category} color="primary" size="small" />
-            ))}
-          </CategoryBox>
-          <Footer>
-            <Likes variant="body2">
-              <Favorite fontSize="small" style={{ marginRight: '5px', color: 'red' }} />
-              {likes}
-            </Likes>
-            <Developers variant="body2">
-              {t('current_developers')} {currentDevelopers}/{maxDevelopers}
-            </Developers>
-          </Footer>
-        </Box>
+        <ModalContent>
+          <ScrollContainer>
+            <Typography id="transition-modal-title" variant="h4" component="h2">
+              {title}
+            </Typography>
+            <img src={image} alt={title} style={{ width: '100%', marginTop: 16, borderRadius: 8 }} />
+            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+              {description}
+            </Typography>
+            <CategoryBox>
+              {categories.map((category, index) => (
+                <Chip key={index} label={category} color="primary" size="small" />
+              ))}
+            </CategoryBox>
+            <Footer>
+              <Developers variant="body2">
+                {t('current_developers')} {currentDevelopers}/{maxDevelopers}
+              </Developers>
+              <Likes variant="body2">
+                <Favorite fontSize="small" style={{ marginRight: '5px' }} />
+                {likes}
+              </Likes>
+            </Footer>
+          </ScrollContainer>
+        </ModalContent>
       </Fade>
     </Modal>
   );

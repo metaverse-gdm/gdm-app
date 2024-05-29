@@ -1,5 +1,3 @@
-// File: ./components/ContentCard.tsx
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Box, Chip } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
@@ -23,13 +21,14 @@ const CardContainer = styled(Card)({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Enhanced shadow
-  transition: 'transform 0.2s ease-in-out', // Smooth transition effect
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  transition: 'transform 0.2s ease-in-out',
   '&:hover': {
-    transform: 'translateY(-5px)', // Lift on hover
-    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)', // Deeper shadow on hover
+    transform: 'translateY(-5px)',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
   },
   borderRadius: '16px',
+  overflow: 'hidden', // 追加
 });
 
 const Media = styled(CardMedia)({
@@ -63,13 +62,13 @@ const CategoryBox = styled(Box)({
 });
 
 const Likes = styled(Typography)({
-  color: 'gray',
+  color: '#d32f2f',
   display: 'flex',
   alignItems: 'center',
 });
 
 const Developers = styled(Typography)({
-  color: 'blue',
+  color: '#1976d2',
 });
 
 const ContentCard: React.FC<ContentCardProps> = ({ image, title, description, categories = [], likes, currentDevelopers, maxDevelopers }) => {
@@ -102,20 +101,19 @@ const ContentCard: React.FC<ContentCardProps> = ({ image, title, description, ca
           </Box>
           <CategoryBox>
             {categories.map((category, index) => (
-              // 空だったら何も表示しない
               category &&
               <Chip key={index} label={category} color="primary" size="small" />
             ))}
           </CategoryBox>
         </CardContentContainer>
         <Footer>
-          <Likes variant="body2">
-            <Favorite fontSize="small" style={{ marginRight: '5px', color: 'red' }} />
-            {likes}
-          </Likes>
           <Developers variant="body2">
             {t('current_developers')} {currentDevelopers}/{maxDevelopers}
           </Developers>
+          <Likes variant="body2">
+            <Favorite fontSize="small" style={{ marginRight: '5px' }} />
+            {likes}
+          </Likes>
         </Footer>
       </CardContainer>
 
