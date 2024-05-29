@@ -29,12 +29,13 @@ const CardContainer = styled(Card)({
     transform: 'translateY(-5px)', // Lift on hover
     boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)', // Deeper shadow on hover
   },
+  borderRadius: '16px',
 });
 
 const Media = styled(CardMedia)({
   height: 200,
-  borderTopLeftRadius: '4px', // Rounded corners
-  borderTopRightRadius: '4px', // Rounded corners
+  borderTopLeftRadius: '16px',
+  borderTopRightRadius: '16px',
 });
 
 const CardContentContainer = styled(CardContent)({
