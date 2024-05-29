@@ -1,18 +1,18 @@
-// File: ./components/Header.tsx
-
+import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
 import { Menu as MenuIcon, Search as SearchIcon, Help as HelpIcon, Language as LanguageIcon, AddBox as AddBoxIcon, Login as LoginIcon, PersonAdd as PersonAddIcon } from '@mui/icons-material';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
+import NewContentModal from './NewContentModal'; // Import the new modal component
 
 const Header: React.FC = () => {
   const { i18n, t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false); // State for modal
   const router = useRouter();
 
   const theme = useTheme();
@@ -36,10 +36,18 @@ const Header: React.FC = () => {
     setDrawerOpen(open);
   };
 
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   const drawer = (
     <div role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
       <List>
-        <ListItem button onClick={() => router.push('/new-content')}>
+        <ListItem button onClick={handleModalOpen}>
           <ListItemIcon><AddBoxIcon /></ListItemIcon>
           <ListItemText primary={t('register_project')} />
         </ListItem>
@@ -104,7 +112,7 @@ const Header: React.FC = () => {
               <MenuItem onClick={() => handleLanguageMenuClose('zh')}>中文</MenuItem>
               <MenuItem onClick={() => handleLanguageMenuClose('ja')}>日本語</MenuItem>
             </Menu>
-            <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit" onClick={() => router.push('/new-content')}>
+            <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit" onClick={handleModalOpen}>
               {t('register_project')}
             </StyledButton>
             <StyledButton startIcon={<LoginIcon />} color="inherit" onClick={() => router.push('/login')}>
@@ -116,6 +124,7 @@ const Header: React.FC = () => {
           </div>
         )}
       </Toolbar>
+      <NewContentModal open={modalOpen} handleClose={handleModalClose} />
     </AppBar>
   );
 };
