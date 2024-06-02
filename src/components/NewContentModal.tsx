@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, TextField, Button, Typography, Chip, Grid, Modal, Fade, Backdrop } from '@mui/material';
+import { Box, TextField, Button, Typography, Modal, Fade, Backdrop, Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/system';
 
@@ -56,7 +56,6 @@ const NewContentModal: React.FC<{ open: boolean, handleClose: () => void }> = ({
       maxDevelopers: Number(formData.maxDevelopers),
     };
 
-    // サーバーにデータを送信
     const response = await fetch('/api/content', {
       method: 'POST',
       headers: {

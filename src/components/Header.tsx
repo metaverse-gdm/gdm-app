@@ -6,15 +6,15 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { styled } from '@mui/system';
 import { useRouter } from 'next/router';
-import NewContentModal from './NewContentModal'; // Import the new modal component
+import { useSession, signOut } from 'next-auth/react';
 
 const Header: React.FC = () => {
   const { i18n, t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false); // State for modal
   const router = useRouter();
-
+  const { data: session } = useSession();
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -36,29 +36,32 @@ const Header: React.FC = () => {
     setDrawerOpen(open);
   };
 
-  const handleModalOpen = () => {
-    setModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
-
   const drawer = (
     <div role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
       <List>
-        <ListItem button onClick={handleModalOpen}>
-          <ListItemIcon><AddBoxIcon /></ListItemIcon>
-          <ListItemText primary={t('register_project')} />
-        </ListItem>
-        <ListItem button onClick={() => router.push('/login')}>
-          <ListItemIcon><LoginIcon /></ListItemIcon>
-          <ListItemText primary={t('login')} />
-        </ListItem>
-        <ListItem button onClick={() => router.push('/signup')}>
-          <ListItemIcon><PersonAddIcon /></ListItemIcon>
-          <ListItemText primary={t('sign_up')} />
-        </ListItem>
+        {session ? (
+          <>
+            <ListItem button onClick={() => router.push('/create-post')}>
+              <ListItemIcon><AddBoxIcon /></ListItemIcon>
+              <ListItemText primary={t('create_post')} />
+            </ListItem>
+            <ListItem button onClick={() => signOut()}>
+              <ListItemIcon><LoginIcon /></ListItemIcon>
+              <ListItemText primary={t('logout')} />
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem button onClick={() => router.push('/login')}>
+              <ListItemIcon><LoginIcon /></ListItemIcon>
+              <ListItemText primary={t('login')} />
+            </ListItem>
+            <ListItem button onClick={() => router.push('/signup')}>
+              <ListItemIcon><PersonAddIcon /></ListItemIcon>
+              <ListItemText primary={t('sign_up')} />
+            </ListItem>
+          </>
+        )}
         <ListItem button onClick={() => router.push('/faq')}>
           <ListItemIcon><HelpIcon /></ListItemIcon>
           <ListItemText primary={t('faq')} />
@@ -112,19 +115,28 @@ const Header: React.FC = () => {
               <MenuItem onClick={() => handleLanguageMenuClose('zh')}>中文</MenuItem>
               <MenuItem onClick={() => handleLanguageMenuClose('ja')}>日本語</MenuItem>
             </Menu>
-            <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit" onClick={handleModalOpen}>
-              {t('register_project')}
-            </StyledButton>
-            <StyledButton startIcon={<LoginIcon />} color="inherit" onClick={() => router.push('/login')}>
-              {t('login')}
-            </StyledButton>
-            <StyledButton startIcon={<PersonAddIcon />} color="inherit" onClick={() => router.push('/signup')}>
-              {t('sign_up')}
-            </StyledButton>
+            {session ? (
+              <>
+                <StyledButton startIcon={<AddBoxIcon />} variant="outlined" color="inherit" onClick={() => router.push('/create-post')}>
+                  {t('create_post')}
+                </StyledButton>
+                <StyledButton startIcon={<LoginIcon />} color="inherit" onClick={() => signOut()}>
+                  {t('logout')}
+                </StyledButton>
+              </>
+            ) : (
+              <>
+                <StyledButton startIcon={<LoginIcon />} color="inherit" onClick={() => router.push('/login')}>
+                  {t('login')}
+                </StyledButton>
+                <StyledButton startIcon={<PersonAddIcon />} color="inherit" onClick={() => router.push('/signup')}>
+                  {t('sign_up')}
+                </StyledButton>
+              </>
+            )}
           </div>
         )}
       </Toolbar>
-      <NewContentModal open={modalOpen} handleClose={handleModalClose} />
     </AppBar>
   );
 };
