@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, name, password } = req.body;
-  
+
   if (req.method === 'POST') {
     try {
       const hashedPassword = bcrypt.hashSync(password, 10);

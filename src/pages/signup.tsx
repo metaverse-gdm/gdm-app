@@ -25,7 +25,7 @@ const Signup = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm">      
       <Box component="form" onSubmit={handleSubmit} mt={8}>
         <Typography variant="h4" component="h1" gutterBottom>
           Sign Up
