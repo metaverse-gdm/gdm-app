@@ -1,3 +1,20 @@
+## gdm-app
+現在開発中です。
+本アプリは、開発者がコラボレーションを行う際のメンバー募集や、自身の作品を紹介する場を提供することを目的としています。
+
+
+## ToDo
+- [x] メンバー募集の投稿
+- [ ] ログイン機能
+- [ ] Discordログイン
+- [ ] 作品紹介ページ
+- [ ] Profileページ
+- [ ] 検索機能
+- [ ] Category, Tag検索機能
+
+![image](https://github.com/metaverse-gdm/gdm-app/assets/38463346/19063241-612f-47b5-8319-76b3f69f281a)
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
