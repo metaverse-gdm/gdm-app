@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Box, TextField, Button, Container, Typography } from '@mui/material';
+import { signIn } from 'next-auth/react';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -24,43 +25,59 @@ const Signup = () => {
     }
   };
 
+  const handleDiscordLogin = () => {
+    signIn('discord');
+  };
+
   return (
-    <Container maxWidth="sm">      
-      <Box component="form" onSubmit={handleSubmit} mt={8}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Sign Up
-        </Typography>
-        <TextField
-          fullWidth
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          margin="normal"
-          required
-        />
-        <TextField
-          fullWidth
-          label="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          margin="normal"
-          required
-        />
-        <TextField
-          fullWidth
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          margin="normal"
-          required
-        />
-        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
-          Sign Up
-        </Button>
-      </Box>
-    </Container>
+      <Container maxWidth="sm">
+        <Box component="form" onSubmit={handleSubmit} mt={8}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            Sign Up
+          </Typography>
+          <TextField
+              fullWidth
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              margin="normal"
+              required
+          />
+          <TextField
+              fullWidth
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
+              required
+          />
+          <TextField
+              fullWidth
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              margin="normal"
+              required
+          />
+          <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
+            Sign Up
+          </Button>
+          <Typography variant="h6" component="p" gutterBottom sx={{ mt: 2, textAlign: 'center' }}>
+            Or sign up with
+          </Typography>
+          <Button
+              fullWidth
+              variant="contained"
+              color="secondary"
+              onClick={handleDiscordLogin}
+              sx={{ mt: 2 }}
+          >
+            Sign Up with Discord
+          </Button>
+        </Box>
+      </Container>
   );
 };
 

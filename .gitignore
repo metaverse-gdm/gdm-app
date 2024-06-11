@@ -37,3 +37,5 @@ next-env.d.ts
 src/combined_cs_files.txt
 
 .env
+
+.idea/
